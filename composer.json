@@ -1,4 +1,15 @@
 {
+    "name": "carlosv2/dumbsmart-repositories",
+    "type": "library",
+    "description": "Simplistic layer to store documents into their own repositories",
+    "keywords": ["Repository", "Filesystem", "Test"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Carlos Ortega",
+            "email": "carlosV2.0@gmail.com"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "carlosV2\\DumbsmartRepositories\\": "src/",
