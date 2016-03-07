@@ -1,0 +1,19 @@
+{
+    "autoload": {
+        "psr-4": {
+            "carlosV2\\DumbsmartRepositories\\": "src/",
+            "spec\\carlosV2\\DumbsmartRepositories\\": "spec/"
+        }
+    },
+    "require": {
+        "php": "~5.4",
+        "everzet/persisted-objects": "~1.0"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "~2.1.0@dev",
+        "bossa/phpspec2-expect": "*"
+    },
+    "config": {
+        "bin-dir": "bin"
+    }
+}
