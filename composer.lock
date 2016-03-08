@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "28a9cece0ed32412ca7e96a895203a6f",
-    "content-hash": "3c1faf102f7174a34defdc6c1c512ecd",
+    "hash": "2841c7b863a2b15ba788f2ae182e1cd4",
+    "content-hash": "6f5f49aa89a9b25d44a90833f8bcf08d",
     "packages": [
         {
             "name": "everzet/persisted-objects",

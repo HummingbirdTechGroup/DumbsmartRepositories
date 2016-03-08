@@ -6,9 +6,14 @@ another object.
 This layer is designed to be used on testing environments or on low data-level-access applications. Using this
 project in production is totally discouraged.
 
+[![License](https://poser.pugx.org/carlosv2/dumbsmart-repositories/license)](https://packagist.org/packages/carlosv2/dumbsmart-repositories)
+[![Build Status](https://scrutinizer-ci.com/g/carlosV2/DumbsmartRepositories/badges/build.png?b=master)](https://scrutinizer-ci.com/g/carlosV2/DumbsmartRepositories/build-status/master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/carlosV2/DumbsmartRepositories/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/carlosV2/DumbsmartRepositories/?branch=master)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/500011c2-4635-4827-b00e-c253b3502171/mini.png)](https://insight.sensiolabs.com/projects/500011c2-4635-4827-b00e-c253b3502171)
+
 ## Why?
 
-When using fake repositories is common to use function like `serialize` or `json_encode` in order to make
+When using fake repositories is common to use functions like `serialize` or `json_encode` in order to make
 data easily persistable. The side effects of this methods is that related documents are stored along with
 the parent document so if you query this document in its own repository produces no results and modifying
 its data means to load any potential document that relates with the one that must me modified.
