@@ -12,7 +12,11 @@
     ],
     "autoload": {
         "psr-4": {
-            "carlosV2\\DumbsmartRepositories\\": "src/",
+            "carlosV2\\DumbsmartRepositories\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "spec\\carlosV2\\DumbsmartRepositories\\": "spec/"
         }
     },
@@ -21,7 +25,7 @@
         "everzet/persisted-objects": "~1.0"
     },
     "require-dev": {
-        "phpspec/phpspec": "~2.1.0@dev",
+        "phpspec/phpspec": "~2.1",
         "bossa/phpspec2-expect": "*"
     },
     "config": {

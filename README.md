@@ -88,3 +88,14 @@ $persister->save($user);
 // not return same object because it has been serialized and unserialized
 $persister->findById(Post::class, 2);
 ```
+
+If you were using [everzet/persisted-objects](https://github.com/everzet/persisted-objects) previously, you don't
+even need to modify your code but just the way you build your objects:
+```
+// $persister is an instance of carlosV2\DumbsmartRepositories\Persister
+$persister = ... ;
+
+// FrontRepository implements Everzet\PersistedObjects\Repository
+$frontRepository = new FronRepository($persister, YourVeryOwnClass::class);
+$repository = new YourVeryOwnClassRepository($frontRepository);
+```
