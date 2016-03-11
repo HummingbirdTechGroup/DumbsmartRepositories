@@ -114,7 +114,20 @@ class Transaction
      */
     private function getCachedDataByReference(Reference $reference)
     {
-        if ($object = @$this->cache[$reference->getClassName()][$reference->getId()]) {
+        return $this->getCachedDataByClassNameAndId($reference->getClassName(), $this->stringify($reference->getId()));
+    }
+
+    /**
+     * @param string $className
+     * @param string $id
+     *
+     * @return object
+     *
+     * @throws CacheMissException
+     */
+    private function getCachedDataByClassNameAndId($className, $id)
+    {
+        if ($object = @$this->cache[$className][$id]) {
             return $object;
         }
 
@@ -132,6 +145,16 @@ class Transaction
             $this->cache[$className] = [];
         }
 
-        $this->cache[$className][$id] = $object;
+        $this->cache[$className][$this->stringify($id)] = $object;
+    }
+
+    /**
+     * @param mixed $data
+     *
+     * @return string
+     */
+    private function stringify($data)
+    {
+        return md5(serialize($data));
     }
 }
