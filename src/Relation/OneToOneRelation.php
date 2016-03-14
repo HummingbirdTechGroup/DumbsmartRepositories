@@ -11,7 +11,10 @@ class OneToOneRelation extends Relation
      */
     public function prepareToSave(Transaction $transaction, $object)
     {
-        $this->inject($object, $transaction->save($this->extract($object)));
+        $document = $this->extract($object);
+        $this->assertObjectOrNull($document);
+
+        $this->inject($object, ($document ? $transaction->save($document) : null));
     }
 
     /**
@@ -19,6 +22,9 @@ class OneToOneRelation extends Relation
      */
     public function prepareToLoad(Transaction $transaction, $object)
     {
-        $this->inject($object, $transaction->findByReference($this->extract($object)));
+        $reference = $this->extract($object);
+        $this->assertReferenceOrNull($reference);
+
+        $this->inject($object, ($reference ? $transaction->findByReference($reference) : null));
     }
 }

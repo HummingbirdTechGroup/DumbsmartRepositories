@@ -12,7 +12,9 @@ class OneToManyRelation extends Relation
     public function prepareToSave(Transaction $transaction, $object)
     {
         $this->inject($object, array_map(function ($document) use ($transaction) {
-            return $transaction->save($document);
+            $this->assertObjectOrNull($document);
+
+            return ($document ? $transaction->save($document) : null);
         }, $this->extract($object)));
     }
 
@@ -21,8 +23,10 @@ class OneToManyRelation extends Relation
      */
     public function prepareToLoad(Transaction $transaction, $object)
     {
-        $this->inject($object, array_map(function ($document) use ($transaction) {
-            return $transaction->findByReference($document);
+        $this->inject($object, array_map(function ($reference) use ($transaction) {
+            $this->assertReferenceOrNull($reference);
+
+            return ($reference ? $transaction->findByReference($reference) : null);
         }, $this->extract($object)));
     }
 }

@@ -2,6 +2,8 @@
 
 namespace carlosV2\DumbsmartRepositories\Relation;
 
+use carlosV2\DumbsmartRepositories\Exception\UnexpectedDocumentTypeException;
+use carlosV2\DumbsmartRepositories\Reference;
 use carlosV2\DumbsmartRepositories\Transaction;
 
 abstract class Relation
@@ -22,12 +24,16 @@ abstract class Relation
     /**
      * @param Transaction $transaction
      * @param object      $object
+     *
+     * @throws UnexpectedDocumentTypeException
      */
     abstract public function prepareToSave(Transaction $transaction, $object);
 
     /**
      * @param Transaction $transaction
      * @param object      $object
+     *
+     * @throws UnexpectedDocumentTypeException
      */
     abstract public function prepareToLoad(Transaction $transaction, $object);
 
@@ -52,5 +58,29 @@ abstract class Relation
         $property = new \ReflectionProperty(get_class($object), $this->field);
         $property->setAccessible(true);
         $property->setValue($object, $document);
+    }
+
+    /**
+     * @param mixed $document
+     *
+     * @throws UnexpectedDocumentTypeException
+     */
+    protected function assertObjectOrNull($document)
+    {
+        if (!is_null($document) && !is_object($document)) {
+            throw new UnexpectedDocumentTypeException();
+        }
+    }
+
+    /**
+     * @param mixed $document
+     *
+     * @throws UnexpectedDocumentTypeException
+     */
+    protected function assertReferenceOrNull($document)
+    {
+        if (!is_null($document) && !$document instanceof Reference) {
+            throw new UnexpectedDocumentTypeException();
+        }
     }
 }

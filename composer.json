@@ -27,8 +27,5 @@
     "require-dev": {
         "phpspec/phpspec": "~2.1",
         "bossa/phpspec2-expect": "*"
-    },
-    "config": {
-        "bin-dir": "bin"
     }
 }

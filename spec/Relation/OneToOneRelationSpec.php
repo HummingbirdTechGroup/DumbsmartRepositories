@@ -2,6 +2,7 @@
 
 namespace spec\carlosV2\DumbsmartRepositories\Relation;
 
+use carlosV2\DumbsmartRepositories\Exception\UnexpectedDocumentTypeException;
 use carlosV2\DumbsmartRepositories\Reference;
 use carlosV2\DumbsmartRepositories\Relation\Relation;
 use carlosV2\DumbsmartRepositories\Transaction;
@@ -19,7 +20,7 @@ class OneToOneRelationSpec extends ObjectBehavior
         $this->shouldHaveType(Relation::class);
     }
 
-    function it_prepares_an_object_to_be_saved(Transaction $transaction)
+    function it_prepares_an_object_to_be_saved_with_a_related_object(Transaction $transaction)
     {
         $embedded = new \stdClass();
         $reference = new Reference('classname', '123');
@@ -33,7 +34,28 @@ class OneToOneRelationSpec extends ObjectBehavior
         expect($object->getField())->toBe($reference);
     }
 
-    function it_prepares_an_object_to_be_loaded(Transaction $transaction)
+    function it_prepares_an_object_to_be_saved_with_a_related_null(Transaction $transaction)
+    {
+        $object = new TestingObject();
+        $object->setField(null);
+
+        $transaction->save(null)->shouldNotBeCalled();
+
+        $this->prepareToSave($transaction, $object);
+        expect($object->getField())->toBe(null);
+    }
+
+    function it_throws_UnexpectedDocumentTypeException_if_the_related_value_is_not_null_or_object_while_preparing_to_save(Transaction $transaction)
+    {
+        $object = new TestingObject();
+        $object->setField(2);
+
+        $transaction->save(2)->shouldNotBeCalled();
+
+        $this->shouldThrow(UnexpectedDocumentTypeException::class)->duringPrepareToSave($transaction, $object);
+    }
+
+    function it_prepares_an_object_to_be_loaded_with_a_related_reference(Transaction $transaction)
     {
         $embedded = new \stdClass();
         $reference = new Reference('classname', '123');
@@ -45,5 +67,32 @@ class OneToOneRelationSpec extends ObjectBehavior
 
         $this->prepareToLoad($transaction, $object);
         expect($object->getField())->toBe($embedded);
+    }
+
+    function it_prepares_an_object_to_be_loaded_with_a_related_null(Transaction $transaction)
+    {
+        $object = new TestingObject();
+        $object->setField(null);
+
+        $transaction->findByReference(null)->shouldNotBeCalled();
+
+        $this->prepareToLoad($transaction, $object);
+        expect($object->getField())->toBe(null);
+    }
+
+    function it_throws_UnexpectedDocumentTypeException_if_the_related_value_is_not_null_or_reference_while_preparing_to_load(Transaction $transaction)
+    {
+        $embedded = new \stdClass();
+
+        $object1 = new TestingObject();
+        $object1->setField(2);
+        $object2 = new TestingObject();
+        $object2->setField($embedded);
+
+        $transaction->findByReference(2)->shouldNotBeCalled();
+        $transaction->findByReference($embedded)->shouldNotBeCalled();
+
+        $this->shouldThrow(UnexpectedDocumentTypeException::class)->duringPrepareToLoad($transaction, $object1);
+        $this->shouldThrow(UnexpectedDocumentTypeException::class)->duringPrepareToLoad($transaction, $object2);
     }
 }
