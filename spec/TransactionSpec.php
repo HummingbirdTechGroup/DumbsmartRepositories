@@ -55,10 +55,10 @@ class TransactionSpec extends ObjectBehavior
         $metadata->getReferenceForObject($object)->willReturn($reference);
         $metadata->prepareToLoad($this, $object)->shouldBeCalled();
 
-        $this->findByReference($reference)->shouldReturn($object);
+        $this->findByReference($reference)->shouldBeAnInstanceOf(\stdClass::class);
     }
 
-    function it_return_same_object_when_trying_to_find_by_the_same_reference(Metadata $metadata, Repository $repository)
+    function it_returns_same_object_when_trying_to_find_by_the_same_reference(Metadata $metadata, Repository $repository)
     {
         $object = new \stdClass();
         $reference = new Reference('my_class', '123');
@@ -67,8 +67,10 @@ class TransactionSpec extends ObjectBehavior
         $metadata->getReferenceForObject($object)->willReturn($reference);
         $metadata->prepareToLoad($this, $object)->shouldBeCalled();
 
-        $this->findByReference($reference)->shouldReturn($object);
-        $this->findByReference($reference)->shouldReturn($object);
+        $result1 = $this->findByReference($reference);
+        $result2 = $this->findByReference($reference);
+
+        expect($result1->getWrappedObject())->toBe($result2->getWrappedObject());
     }
 
     function it_gets_all_the_objects_in_the_repository(Metadata $metadata, Repository $repository)
@@ -88,6 +90,11 @@ class TransactionSpec extends ObjectBehavior
         $metadata->prepareToLoad($this, $object1)->shouldBeCalled();
         $metadata->prepareToLoad($this, $object2)->shouldBeCalled();
 
-        $this->getAll('my_class')->shouldReturn([$object1, $object2]);
+        $results = $this->getAll('my_class');
+        $results->shouldHaveCount(2);
+        $results[0]->shouldBeAnInstanceOf(\stdClass::class);
+        $results[0]->id->shouldBe('123');
+        $results[1]->shouldBeAnInstanceOf(\stdClass::class);
+        $results[1]->id->shouldBe('456');
     }
 }

@@ -50,6 +50,7 @@ class Transaction
             $reference = $this->mm->getMetadataForObject($object)->getReferenceForObject($object);
             $this->setCachedData($reference->getClassName(), $reference->getId(), $reference);
 
+            $object = clone $object;
             $this->mm->getMetadataForObject($object)->prepareToSave($this, $object);
             $this->rm->getRepositoryForObject($object)->save($object);
         }
@@ -70,6 +71,8 @@ class Transaction
             $object = $this->getCachedDataByReference($reference);
         } catch (CacheMissException $e) {
             $object = $this->rm->getRepositoryForClassName($reference->getClassName())->findById($reference->getId());
+
+            $object = clone $object;
             $this->setCachedData($reference->getClassName(), $reference->getId(), $object);
             $this->mm->getMetadataForObject($object)->prepareToLoad($this, $object);
         }
