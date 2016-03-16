@@ -58,6 +58,18 @@ class TransactionSpec extends ObjectBehavior
         $this->findByReference($reference)->shouldBeAnInstanceOf(\stdClass::class);
     }
 
+    function it_returns_null_if_an_object_cannot_be_found(Metadata $metadata, Repository $repository)
+    {
+        $object = new \stdClass();
+        $reference = new Reference('my_class', '123');
+
+        $repository->findById('123')->willReturn(null);
+        $metadata->getReferenceForObject($object)->willReturn($reference);
+        $metadata->prepareToLoad($this, null)->shouldNotBeCalled();
+
+        $this->findByReference($reference)->shouldReturn(null);
+    }
+
     function it_returns_same_object_when_trying_to_find_by_the_same_reference(Metadata $metadata, Repository $repository)
     {
         $object = new \stdClass();

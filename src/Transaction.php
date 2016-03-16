@@ -70,11 +70,11 @@ class Transaction
         try {
             $object = $this->getCachedDataByReference($reference);
         } catch (CacheMissException $e) {
-            $object = $this->rm->getRepositoryForClassName($reference->getClassName())->findById($reference->getId());
-
-            $object = clone $object;
-            $this->setCachedData($reference->getClassName(), $reference->getId(), $object);
-            $this->mm->getMetadataForObject($object)->prepareToLoad($this, $object);
+            if ($object = $this->rm->getRepositoryForClassName($reference->getClassName())->findById($reference->getId())) {
+                $object = clone $object;
+                $this->setCachedData($reference->getClassName(), $reference->getId(), $object);
+                $this->mm->getMetadataForObject($object)->prepareToLoad($this, $object);
+            }
         }
 
         return $object;
