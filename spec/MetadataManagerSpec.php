@@ -18,4 +18,15 @@ class MetadataManagerSpec extends ObjectBehavior
     {
         $this->shouldThrow(MetadataNotFoundException::class)->duringGetMetadataForObject(new \stdClass());
     }
+
+    function it_provides_the_repository_assigned_to_a_classname(Metadata $metadata)
+    {
+        $this->addMetadata(\stdClass::class, $metadata);
+        $this->getMetadataForClassName(\stdClass::class)->shouldReturn($metadata);
+    }
+
+    function it_throws_an_exception_if_the_classname_has_no_repository_assigned()
+    {
+        $this->shouldThrow(MetadataNotFoundException::class)->duringGetMetadataForClassName(\stdClass::class);
+    }
 }

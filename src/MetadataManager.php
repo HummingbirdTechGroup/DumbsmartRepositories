@@ -34,7 +34,18 @@ class MetadataManager
      */
     public function getMetadataForObject($object)
     {
-        $className = get_class($object);
+        return $this->getMetadataForClassName(get_class($object));
+    }
+
+    /**
+     * @param string $className
+     *
+     * @return Metadata
+     *
+     * @throws MetadataNotFoundException
+     */
+    public function getMetadataForClassName($className)
+    {
         if (array_key_exists($className, $this->metadata)) {
             return $this->metadata[$className];
         }
