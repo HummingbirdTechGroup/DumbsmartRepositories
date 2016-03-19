@@ -65,4 +65,12 @@ class Metadata
     {
         return new Reference(get_class($object), $this->identifier->getIdentity($object));
     }
+
+    /**
+     * @return ObjectIdentifier
+     */
+    public function getObjectIdentifier()
+    {
+        return $this->identifier;
+    }
 }

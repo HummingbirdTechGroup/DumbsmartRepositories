@@ -15,6 +15,11 @@ class MetadataSpec extends ObjectBehavior
         $this->beConstructedWith($identifier);
     }
 
+    function it_exposes_the_ObjectIdentifier(ObjectIdentifier $identifier)
+    {
+        $this->getObjectIdentifier()->shouldReturn($identifier);
+    }
+
     function it_computes_the_reference_to_an_object(ObjectIdentifier $identifier)
     {
         $object = new \stdClass();
