@@ -22,6 +22,14 @@ abstract class Relation
     }
 
     /**
+     * @return string
+     */
+    public function getField()
+    {
+        return $this->field;
+    }
+
+    /**
      * @param Transaction $transaction
      * @param object      $object
      *

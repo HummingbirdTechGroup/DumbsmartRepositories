@@ -20,6 +20,11 @@ class OneToOneRelationSpec extends ObjectBehavior
         $this->shouldHaveType(Relation::class);
     }
 
+    function it_exposes_the_field()
+    {
+        $this->getField()->shouldReturn('field');
+    }
+
     function it_prepares_an_object_to_be_saved_with_a_related_object(Transaction $transaction)
     {
         $embedded = new \stdClass();
