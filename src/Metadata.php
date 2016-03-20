@@ -73,4 +73,12 @@ class Metadata
     {
         return $this->identifier;
     }
+
+    /**
+     * @return Relation[]
+     */
+    public function getRelations()
+    {
+        return $this->relations;
+    }
 }

@@ -55,4 +55,11 @@ class MetadataSpec extends ObjectBehavior
         $this->setRelation($relation2);
         $this->prepareToLoad($transaction, $object);
     }
+
+    function it_exposes_the_relations(Relation $relation1, Relation $relation2)
+    {
+        $this->setRelation($relation1);
+        $this->setRelation($relation2);
+        $this->getRelations()->shouldReturn([$relation1, $relation2]);
+    }
 }
