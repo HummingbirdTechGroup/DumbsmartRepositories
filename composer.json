@@ -2,11 +2,7 @@
     "name": "carlosv2/dumbsmart-repositories",
     "type": "library",
     "description": "Simplistic layer to store documents into their own repositories",
-    "keywords": [
-        "Repository",
-        "Filesystem",
-        "Test"
-    ],
+    "keywords": ["Repository", "Filesystem", "Test"],
     "license": "MIT",
     "authors": [
         {
@@ -25,12 +21,12 @@
         }
     },
     "require": {
-        "php": "~5.4",
+        "php": ">=5.4,<7.1",
         "everzet/persisted-objects": "~1.0"
     },
     "require-dev": {
         "phpspec/phpspec": "~2.1",
-        "bossa/phpspec2-expect": "*"
+        "bossa/phpspec2-expect": "~1.0"
     },
     "extra": {
         "branch-alias": {
