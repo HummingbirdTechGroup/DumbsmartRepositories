@@ -8,7 +8,6 @@ project in production is totally discouraged.
 
 [![License](https://poser.pugx.org/carlosv2/dumbsmart-repositories/license)](https://packagist.org/packages/carlosv2/dumbsmart-repositories)
 [![Build Status](https://travis-ci.org/carlosV2/DumbsmartRepositories.svg?branch=master)](https://travis-ci.org/carlosV2/DumbsmartRepositories)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/carlosV2/DumbsmartRepositories/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/carlosV2/DumbsmartRepositories/?branch=master)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/500011c2-4635-4827-b00e-c253b3502171/mini.png)](https://insight.sensiolabs.com/projects/500011c2-4635-4827-b00e-c253b3502171)
 
 ## Why?

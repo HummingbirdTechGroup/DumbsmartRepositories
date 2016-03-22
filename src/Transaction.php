@@ -130,11 +130,15 @@ class Transaction
      */
     private function getCachedDataByClassNameAndId($className, $id)
     {
-        if ($object = @$this->cache[$className][$id]) {
-            return $object;
+        if (!array_key_exists($className, $this->cache)) {
+            throw new CacheMissException();
         }
 
-        throw new CacheMissException();
+        if (!array_key_exists($id, $this->cache[$className])) {
+            throw new CacheMissException();
+        }
+
+        return $this->cache[$className][$id];
     }
 
     /**
