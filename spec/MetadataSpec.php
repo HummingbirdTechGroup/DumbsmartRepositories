@@ -2,7 +2,6 @@
 
 namespace spec\carlosV2\DumbsmartRepositories;
 
-use carlosV2\DumbsmartRepositories\Reference;
 use carlosV2\DumbsmartRepositories\Relation\Relation;
 use carlosV2\DumbsmartRepositories\Transaction;
 use Everzet\PersistedObjects\ObjectIdentifier;
@@ -27,8 +26,8 @@ class MetadataSpec extends ObjectBehavior
         $identifier->getIdentity($object)->willReturn('id');
 
         $reference = $this->getReferenceForObject($object);
-        $reference->shouldBeAnInstanceOf(Reference::class);
-        $reference->getClassName()->shouldReturn(\stdClass::class);
+        $reference->shouldBeAnInstanceOf('carlosV2\DumbsmartRepositories\Reference');
+        $reference->getClassName()->shouldReturn('stdClass');
         $reference->getId()->shouldReturn('id');
     }
 

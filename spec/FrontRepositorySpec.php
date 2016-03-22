@@ -3,7 +3,6 @@
 namespace spec\carlosV2\DumbsmartRepositories;
 
 use carlosV2\DumbsmartRepositories\Persister;
-use Everzet\PersistedObjects\Repository;
 use PhpSpec\ObjectBehavior;
 
 class FrontRepositorySpec extends ObjectBehavior
@@ -15,7 +14,7 @@ class FrontRepositorySpec extends ObjectBehavior
 
     function it_is_a_Repository()
     {
-        $this->shouldHaveType(Repository::class);
+        $this->shouldHaveType('Everzet\PersistedObjects\Repository');
     }
 
     function it_saves_an_object(Persister $persister)

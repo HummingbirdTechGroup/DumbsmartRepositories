@@ -2,9 +2,7 @@
 
 namespace spec\carlosV2\DumbsmartRepositories\Relation;
 
-use carlosV2\DumbsmartRepositories\Exception\UnexpectedDocumentTypeException;
 use carlosV2\DumbsmartRepositories\Reference;
-use carlosV2\DumbsmartRepositories\Relation\Relation;
 use carlosV2\DumbsmartRepositories\Transaction;
 use PhpSpec\ObjectBehavior;
 
@@ -17,7 +15,7 @@ class OneToOneRelationSpec extends ObjectBehavior
 
     function it_is_a_Relation()
     {
-        $this->shouldHaveType(Relation::class);
+        $this->shouldHaveType('carlosV2\DumbsmartRepositories\Relation\Relation');
     }
 
     function it_exposes_the_field()
@@ -57,7 +55,7 @@ class OneToOneRelationSpec extends ObjectBehavior
 
         $transaction->save(2)->shouldNotBeCalled();
 
-        $this->shouldThrow(UnexpectedDocumentTypeException::class)->duringPrepareToSave($transaction, $object);
+        $this->shouldThrow('carlosV2\DumbsmartRepositories\Exception\UnexpectedDocumentTypeException')->duringPrepareToSave($transaction, $object);
     }
 
     function it_prepares_an_object_to_be_loaded_with_a_related_reference(Transaction $transaction)
@@ -97,7 +95,7 @@ class OneToOneRelationSpec extends ObjectBehavior
         $transaction->findByReference(2)->shouldNotBeCalled();
         $transaction->findByReference($embedded)->shouldNotBeCalled();
 
-        $this->shouldThrow(UnexpectedDocumentTypeException::class)->duringPrepareToLoad($transaction, $object1);
-        $this->shouldThrow(UnexpectedDocumentTypeException::class)->duringPrepareToLoad($transaction, $object2);
+        $this->shouldThrow('carlosV2\DumbsmartRepositories\Exception\UnexpectedDocumentTypeException')->duringPrepareToLoad($transaction, $object1);
+        $this->shouldThrow('carlosV2\DumbsmartRepositories\Exception\UnexpectedDocumentTypeException')->duringPrepareToLoad($transaction, $object2);
     }
 }

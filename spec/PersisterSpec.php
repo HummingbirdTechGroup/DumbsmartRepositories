@@ -2,8 +2,6 @@
 
 namespace spec\carlosV2\DumbsmartRepositories;
 
-use carlosV2\DumbsmartRepositories\Exception\RepositoryNotFoundException;
-use carlosV2\DumbsmartRepositories\Reference;
 use carlosV2\DumbsmartRepositories\RepositoryManager;
 use carlosV2\DumbsmartRepositories\Transaction;
 use carlosV2\DumbsmartRepositories\TransactionFactory;
@@ -16,7 +14,7 @@ class PersisterSpec extends ObjectBehavior
     function let(RepositoryManager $rm, Repository $repository, TransactionFactory $factory, Transaction $transaction)
     {
         $factory->createTransaction()->willReturn($transaction);
-        $rm->getRepositoryForObject(Argument::type(\stdClass::class))->willReturn($repository);
+        $rm->getRepositoryForObject(Argument::type('\stdClass'))->willReturn($repository);
         $rm->getRepositoryForClassName('my_class')->willReturn($repository);
 
         $this->beConstructedWith($rm, $factory);
@@ -36,7 +34,7 @@ class PersisterSpec extends ObjectBehavior
         $object = new \stdClass();
 
         $transaction->findByReference(Argument::allOf(
-            Argument::type(Reference::class),
+            Argument::type('carlosV2\DumbsmartRepositories\Reference'),
             Argument::which('getClassName', 'my_class'),
             Argument::which('getId', '123')
         ))->willReturn($object);
@@ -67,9 +65,9 @@ class PersisterSpec extends ObjectBehavior
     {
         $object = new \stdClass();
 
-        $rm->getRepositoryForObject($object)->willThrow(RepositoryNotFoundException::class);
+        $rm->getRepositoryForObject($object)->willThrow('carlosV2\DumbsmartRepositories\Exception\RepositoryNotFoundException');
 
-        $this->shouldThrow(RepositoryNotFoundException::class)->duringRemove($object);
+        $this->shouldThrow('carlosV2\DumbsmartRepositories\Exception\RepositoryNotFoundException')->duringRemove($object);
     }
 
     function it_clears_all_the_objects(Repository $repository)
@@ -81,8 +79,8 @@ class PersisterSpec extends ObjectBehavior
 
     function it_bubbles_up_the_exception_if_there_are_no_associated_repositories_while_clearing(RepositoryManager $rm)
     {
-        $rm->getRepositoryForClassName('my_class')->willThrow(RepositoryNotFoundException::class);
+        $rm->getRepositoryForClassName('my_class')->willThrow('carlosV2\DumbsmartRepositories\Exception\RepositoryNotFoundException');
 
-        $this->shouldThrow(RepositoryNotFoundException::class)->duringClear('my_class');
+        $this->shouldThrow('carlosV2\DumbsmartRepositories\Exception\RepositoryNotFoundException')->duringClear('my_class');
     }
 }

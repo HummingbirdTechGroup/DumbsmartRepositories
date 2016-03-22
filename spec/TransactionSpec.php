@@ -14,8 +14,8 @@ class TransactionSpec extends ObjectBehavior
 {
     function let(MetadataManager $mm, Metadata $metadata, RepositoryManager $rm, Repository $repository)
     {
-        $mm->getMetadataForObject(Argument::type(\stdClass::class))->willReturn($metadata);
-        $rm->getRepositoryForObject(Argument::type(\stdClass::class))->willReturn($repository);
+        $mm->getMetadataForObject(Argument::type('\stdClass'))->willReturn($metadata);
+        $rm->getRepositoryForObject(Argument::type('\stdClass'))->willReturn($repository);
         $rm->getRepositoryForClassName('my_class')->willReturn($repository);
 
         $this->beConstructedWith($mm, $rm);
@@ -55,7 +55,7 @@ class TransactionSpec extends ObjectBehavior
         $metadata->getReferenceForObject($object)->willReturn($reference);
         $metadata->prepareToLoad($this, $object)->shouldBeCalled();
 
-        $this->findByReference($reference)->shouldBeAnInstanceOf(\stdClass::class);
+        $this->findByReference($reference)->shouldBeAnInstanceOf('\stdClass');
     }
 
     function it_returns_null_if_an_object_cannot_be_found(Metadata $metadata, Repository $repository)
@@ -104,9 +104,9 @@ class TransactionSpec extends ObjectBehavior
 
         $results = $this->getAll('my_class');
         $results->shouldHaveCount(2);
-        $results[0]->shouldBeAnInstanceOf(\stdClass::class);
+        $results[0]->shouldBeAnInstanceOf('\stdClass');
         $results[0]->id->shouldBe('123');
-        $results[1]->shouldBeAnInstanceOf(\stdClass::class);
+        $results[1]->shouldBeAnInstanceOf('\stdClass');
         $results[1]->id->shouldBe('456');
     }
 }
