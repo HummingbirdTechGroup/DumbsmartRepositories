@@ -37,9 +37,34 @@ class OneToOneRelationSpec extends ObjectBehavior
         expect($object->getField())->toBe($reference);
     }
 
+    function it_prepares_an_object_to_be_saved_with_a_related_object_from_a_parent_class(Transaction $transaction)
+    {
+        $embedded = new \stdClass();
+        $reference = new Reference('classname', '123');
+
+        $object = new TestingChildObject();
+        $object->setField($embedded);
+
+        $transaction->save($embedded)->willReturn($reference);
+
+        $this->prepareToSave($transaction, $object);
+        expect($object->getField())->toBe($reference);
+    }
+
     function it_prepares_an_object_to_be_saved_with_a_related_null(Transaction $transaction)
     {
         $object = new TestingObject();
+        $object->setField(null);
+
+        $transaction->save(null)->shouldNotBeCalled();
+
+        $this->prepareToSave($transaction, $object);
+        expect($object->getField())->toBe(null);
+    }
+
+    function it_prepares_an_object_to_be_saved_with_a_related_null_from_a_parent_class(Transaction $transaction)
+    {
+        $object = new TestingChildObject();
         $object->setField(null);
 
         $transaction->save(null)->shouldNotBeCalled();
@@ -72,9 +97,34 @@ class OneToOneRelationSpec extends ObjectBehavior
         expect($object->getField())->toBe($embedded);
     }
 
+    function it_prepares_an_object_to_be_loaded_with_a_related_reference_from_a_parent_class(Transaction $transaction)
+    {
+        $embedded = new \stdClass();
+        $reference = new Reference('classname', '123');
+
+        $object = new TestingChildObject();
+        $object->setField($reference);
+
+        $transaction->findByReference($reference)->willReturn($embedded);
+
+        $this->prepareToLoad($transaction, $object);
+        expect($object->getField())->toBe($embedded);
+    }
+
     function it_prepares_an_object_to_be_loaded_with_a_related_null(Transaction $transaction)
     {
         $object = new TestingObject();
+        $object->setField(null);
+
+        $transaction->findByReference(null)->shouldNotBeCalled();
+
+        $this->prepareToLoad($transaction, $object);
+        expect($object->getField())->toBe(null);
+    }
+
+    function it_prepares_an_object_to_be_loaded_with_a_related_null_from_a_parent_class(Transaction $transaction)
+    {
+        $object = new TestingChildObject();
         $object->setField(null);
 
         $transaction->findByReference(null)->shouldNotBeCalled();

@@ -43,6 +43,26 @@ class OneToManyRelationSpec extends ObjectBehavior
         expect($object->getField())->toBe([$reference1, null, $reference2]);
     }
 
+    function it_prepares_an_object_to_be_saved_with_related_objects_and_nulls_from_a_parent_class(Transaction $transaction)
+    {
+        $embedded1 = new \stdClass();
+        $embedded1->id = '123';
+        $embedded2 = new \stdClass();
+        $embedded2->id = '456';
+        $reference1 = new Reference('classname', '123');
+        $reference2 = new Reference('classname', '456');
+
+        $object = new TestingChildObject();
+        $object->setField([$embedded1, null, $embedded2]);
+
+        $transaction->save($embedded1)->willReturn($reference1);
+        $transaction->save($embedded2)->willReturn($reference2);
+        $transaction->save(null)->shouldNotBeCalled();
+
+        $this->prepareToSave($transaction, $object);
+        expect($object->getField())->toBe([$reference1, null, $reference2]);
+    }
+
     function it_throws_UnexpectedDocumentTypeException_if_a_related_value_is_not_null_or_object_while_preparing_to_save(Transaction $transaction)
     {
         $embedded1 = new \stdClass();
@@ -73,6 +93,26 @@ class OneToManyRelationSpec extends ObjectBehavior
         $reference2 = new Reference('classname', '456');
 
         $object = new TestingObject();
+        $object->setField([$reference1, null, $reference2]);
+
+        $transaction->findByReference($reference1)->willReturn($embedded1);
+        $transaction->findByReference($reference2)->willReturn($embedded2);
+        $transaction->findByReference(null)->shouldNotBeCalled();
+
+        $this->prepareToLoad($transaction, $object);
+        expect($object->getField())->toBe([$embedded1, null, $embedded2]);
+    }
+
+    function it_prepares_an_object_to_be_loaded_with_related_references_and_nulls_from_a_parent_class(Transaction $transaction)
+    {
+        $embedded1 = new \stdClass();
+        $embedded1->id = '123';
+        $embedded2 = new \stdClass();
+        $embedded2->id = '456';
+        $reference1 = new Reference('classname', '123');
+        $reference2 = new Reference('classname', '456');
+
+        $object = new TestingChildObject();
         $object->setField([$reference1, null, $reference2]);
 
         $transaction->findByReference($reference1)->willReturn($embedded1);

@@ -2,9 +2,9 @@
 
 namespace spec\carlosV2\DumbsmartRepositories\Relation;
 
-class TestingObject
+abstract class AbstractTestingObject
 {
-    protected $field;
+    private $field;
 
     public function setField($data)
     {

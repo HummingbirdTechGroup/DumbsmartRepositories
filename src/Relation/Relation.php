@@ -52,9 +52,30 @@ abstract class Relation
      */
     protected function extract($object)
     {
-        $property = new \ReflectionProperty(get_class($object), $this->field);
-        $property->setAccessible(true);
-        return $property->getValue($object);
+        return $this->extractByClassName(get_class($object), $object);
+    }
+
+    /**
+     * @param string $className
+     * @param object $object
+     *
+     * @return mixed
+     *
+     * @throws \ReflectionException
+     */
+    private function extractByClassName($className, $object)
+    {
+        try {
+            $property = new \ReflectionProperty($className, $this->field);
+            $property->setAccessible(true);
+            return $property->getValue($object);
+        } catch (\ReflectionException $e) {
+            if (($parentClassName = get_parent_class($className)) !== false) {
+                return $this->extractByClassName($parentClassName, $object);
+            }
+
+            throw $e;
+        }
     }
 
     /**
@@ -63,9 +84,29 @@ abstract class Relation
      */
     protected function inject($object, $document)
     {
-        $property = new \ReflectionProperty(get_class($object), $this->field);
-        $property->setAccessible(true);
-        $property->setValue($object, $document);
+        $this->injectByClassName(get_class($object), $object, $document);
+    }
+
+    /**
+     * @param string $className
+     * @param object $object
+     * @param mixed  $document
+     *
+     * @throws \ReflectionException
+     */
+    private function injectByClassName($className, $object, $document)
+    {
+        try {
+            $property = new \ReflectionProperty($className, $this->field);
+            $property->setAccessible(true);
+            $property->setValue($object, $document);
+        } catch (\ReflectionException $e) {
+            if (($parentClassName = get_parent_class($className)) !== false) {
+                return $this->injectByClassName($parentClassName, $object, $document);
+            }
+
+            throw $e;
+        }
     }
 
     /**
