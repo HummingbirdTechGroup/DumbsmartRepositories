@@ -1,10 +1,10 @@
 ## Dumbsmart Repositories
 
-This project is meant to provide a layer in between your project and a collection of fake repositories
-so that each document is stored into its own repository regardless if it was persisted as a relation for
+This project is provides a layer that sits in between your project and a collection of fake repositories
+so that each document is stored into its own repository regardless of whether it was persisted as a relation of
 another object.
 This layer is designed to be used on testing environments or on low data-level-access applications. Using this
-project in production is totally discouraged.
+project in production is discouraged.
 
 [![License](https://poser.pugx.org/carlosv2/dumbsmart-repositories/license)](https://packagist.org/packages/carlosv2/dumbsmart-repositories)
 [![Build Status](https://travis-ci.org/carlosV2/DumbsmartRepositories.svg?branch=master)](https://travis-ci.org/carlosV2/DumbsmartRepositories)
@@ -13,23 +13,22 @@ project in production is totally discouraged.
 ## Why?
 
 When using fake repositories is common to use functions like `serialize` or `json_encode` in order to make
-data easily persistable. The side effects of this methods is that related documents are stored along with
-the parent document so if you query this document in its own repository produces no results and modifying
-its data means to load any potential document that relates with the one that must me modified.
-This is usually not a problem for small projects but on large projects, data used to be complex enough to
-have annoying issues due to this. 
+data easily persistable. A side effects of using these methods is that related documents are stored along with
+the parent document. As a result, querying this document from its own repository produces no results, and modifying
+its data means loading any potential document related with the one that must be modified.
+This is usually not a problem for small projects, but with large projects where data is complex, unforseen consequences can ensue.
 
 ### Installation
 
 Install with:
-```
+```sh
 $ composer require --dev carlosv2/dumbsmart-repositories
 ```
 
 ### Usage
 
 Imagine you have the following entities:
-```
+```php
 class User
 {
     private $id;
@@ -50,7 +49,7 @@ class Post
 ```
 
 In order to use them, you first need to configure this layer:
-```
+```php
 // Configure the metadata
 $metadataManager = new MetadataManager();
 
@@ -74,7 +73,7 @@ $persister = new Persister($repositoryManager, $transactionFactory);
 ```
 
 Once you have configured the layer, you can start using it like this:
-```
+```php
 $post1 = new Post(1);
 $post2 = new Post(2);
 
@@ -89,8 +88,8 @@ $persister->findById(Post::class, 2);
 ```
 
 If you were using [everzet/persisted-objects](https://github.com/everzet/persisted-objects) previously, you don't
-even need to modify your code but just the way you build your repositories:
-```
+even need to modify your code, only the way you build your repositories:
+```php
 // $persister is an instance of carlosV2\DumbsmartRepositories\Persister
 $persister = ... ;
 
