@@ -51,6 +51,6 @@ class RepositoryManager
             return $this->repositories[$className];
         }
 
-        throw new RepositoryNotFoundException();
+        throw new RepositoryNotFoundException($className);
     }
 }
