@@ -2,9 +2,9 @@
 
 **Document found in the given relation is not `null` or `object`.**
 
-Only `null` and `object`s are allowed to be stored through a relation.
-If the relation is tagged as one-to-many, then only `array` composed by
-`object`s and `null`s is allowed.
+If the relation is one-to-one, only `null` and `object` are allowed to be stored.
+
+If the relation is one-to-many, only `array` with `object`s and `null`s is allowed.
 
 ## What triggers it?
 
