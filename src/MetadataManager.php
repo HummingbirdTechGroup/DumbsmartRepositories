@@ -50,6 +50,6 @@ class MetadataManager
             return $this->metadata[$className];
         }
 
-        throw new MetadataNotFoundException();
+        throw new MetadataNotFoundException($className);
     }
 }
