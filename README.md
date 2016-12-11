@@ -1,6 +1,6 @@
 ## Dumbsmart Repositories
 
-This project is provides a layer that sits in between your project and a collection of fake repositories
+This project provides a layer that sits in between your project and a collection of fake repositories
 so that each document is stored into its own repository regardless of whether it was persisted as a relation of
 another object.
 This layer is designed to be used on testing environments or on low data-level-access applications. Using this
