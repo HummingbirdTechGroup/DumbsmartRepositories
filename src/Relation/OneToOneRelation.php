@@ -12,7 +12,7 @@ class OneToOneRelation extends Relation
     public function prepareToSave(Transaction $transaction, $object)
     {
         $document = $this->extract($object);
-        $this->assertObjectOrNull($document);
+        $this->assertObjectOrNull($object, $document);
 
         $this->inject($object, ($document ? $transaction->save($document) : null));
     }
@@ -23,7 +23,7 @@ class OneToOneRelation extends Relation
     public function prepareToLoad(Transaction $transaction, $object)
     {
         $reference = $this->extract($object);
-        $this->assertReferenceOrNull($reference);
+        $this->assertReferenceOrNull($object, $reference);
 
         $this->inject($object, ($reference ? $transaction->findByReference($reference) : null));
     }

@@ -110,26 +110,28 @@ abstract class Relation
     }
 
     /**
-     * @param mixed $document
+     * @param object $object
+     * @param mixed  $document
      *
      * @throws UnexpectedDocumentTypeException
      */
-    protected function assertObjectOrNull($document)
+    protected function assertObjectOrNull($object, $document)
     {
         if (!is_null($document) && !is_object($document)) {
-            throw new UnexpectedDocumentTypeException();
+            throw new UnexpectedDocumentTypeException($object, $this->field, $document);
         }
     }
 
     /**
-     * @param mixed $document
+     * @param object $object
+     * @param mixed  $document
      *
      * @throws UnexpectedDocumentTypeException
      */
-    protected function assertReferenceOrNull($document)
+    protected function assertReferenceOrNull($object, $document)
     {
         if (!is_null($document) && !$document instanceof Reference) {
-            throw new UnexpectedDocumentTypeException();
+            throw new UnexpectedDocumentTypeException($object, $this->field, $document);
         }
     }
 }
