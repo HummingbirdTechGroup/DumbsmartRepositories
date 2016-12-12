@@ -8,13 +8,14 @@ abstract class DocumentedException extends \Exception
 
     /**
      * @param string $message
+     * @param string $uri
      */
-    public function __construct($message)
+    public function __construct($message, $uri = self::DOCUMENTATION_URL)
     {
         parent::__construct(sprintf(
             '%s. Please, head to %s%s.md for more details.',
             rtrim($message, '.'),
-            self::DOCUMENTATION_URL,
+            $uri,
             $this->getExceptionClassName()
         ));
     }
