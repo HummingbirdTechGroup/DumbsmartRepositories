@@ -6,7 +6,7 @@ use carlosV2\DumbsmartRepositories\Exception\UnexpectedDocumentTypeException;
 use carlosV2\DumbsmartRepositories\Reference;
 use carlosV2\DumbsmartRepositories\Transaction;
 
-abstract class Relation
+abstract class Relation implements RelationInterface
 {
     /**
      * @var string
@@ -22,7 +22,7 @@ abstract class Relation
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getField()
     {
@@ -30,83 +30,36 @@ abstract class Relation
     }
 
     /**
-     * @param Transaction $transaction
-     * @param object      $object
-     *
-     * @throws UnexpectedDocumentTypeException
+     * {@inheritdoc}
      */
-    abstract public function prepareToSave(Transaction $transaction, $object);
-
-    /**
-     * @param Transaction $transaction
-     * @param object      $object
-     *
-     * @throws UnexpectedDocumentTypeException
-     */
-    abstract public function prepareToLoad(Transaction $transaction, $object);
-
-    /**
-     * @param object $object
-     *
-     * @return mixed
-     */
-    protected function extract($object)
+    public function prepareToSave(Transaction $transaction, $object)
     {
-        return $this->extractByClassName(get_class($object), $object);
+        $this->replaceField($object, function ($document) use ($transaction, $object) {
+            $this->assertObjectOrNull($object, $document);
+
+            return ($document ? $transaction->save($document) : null);
+        });
     }
 
     /**
-     * @param string $className
-     * @param object $object
-     *
-     * @return mixed
-     *
-     * @throws \ReflectionException
+     * {@inheritdoc}
      */
-    private function extractByClassName($className, $object)
+    public function prepareToLoad(Transaction $transaction, $object)
     {
-        try {
-            $property = new \ReflectionProperty($className, $this->field);
-            $property->setAccessible(true);
-            return $property->getValue($object);
-        } catch (\ReflectionException $e) {
-            if (($parentClassName = get_parent_class($className)) !== false) {
-                return $this->extractByClassName($parentClassName, $object);
-            }
+        $this->replaceField($object, function ($reference) use ($transaction, $object) {
+            $this->assertReferenceOrNull($object, $reference);
 
-            throw $e;
-        }
+            return ($reference ? $transaction->findByReference($reference) : null);
+        });
     }
 
     /**
-     * @param object $object
-     * @param mixed  $document
+     * @param object   $object
+     * @param callable $callback
      */
-    protected function inject($object, $document)
+    protected function replaceField($object, callable $callback)
     {
-        $this->injectByClassName(get_class($object), $object, $document);
-    }
-
-    /**
-     * @param string $className
-     * @param object $object
-     * @param mixed  $document
-     *
-     * @throws \ReflectionException
-     */
-    private function injectByClassName($className, $object, $document)
-    {
-        try {
-            $property = new \ReflectionProperty($className, $this->field);
-            $property->setAccessible(true);
-            $property->setValue($object, $document);
-        } catch (\ReflectionException $e) {
-            if (($parentClassName = get_parent_class($className)) !== false) {
-                return $this->injectByClassName($parentClassName, $object, $document);
-            }
-
-            throw $e;
-        }
+        From($object)->replace($this->field, $callback);
     }
 
     /**

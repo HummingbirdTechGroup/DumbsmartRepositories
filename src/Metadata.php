@@ -2,13 +2,13 @@
 
 namespace carlosV2\DumbsmartRepositories;
 
-use carlosV2\DumbsmartRepositories\Relation\Relation;
+use carlosV2\DumbsmartRepositories\Relation\RelationInterface;
 use Everzet\PersistedObjects\ObjectIdentifier;
 
 class Metadata
 {
     /**
-     * @var Relation[]
+     * @var RelationInterface[]
      */
     private $relations;
 
@@ -27,9 +27,9 @@ class Metadata
     }
 
     /**
-     * @param Relation $relation
+     * @param RelationInterface $relation
      */
-    public function setRelation(Relation $relation)
+    public function setRelation(RelationInterface $relation)
     {
         $this->relations[] = $relation;
     }
@@ -75,7 +75,7 @@ class Metadata
     }
 
     /**
-     * @return Relation[]
+     * @return RelationInterface[]
      */
     public function getRelations()
     {

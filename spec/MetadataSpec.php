@@ -2,7 +2,7 @@
 
 namespace spec\carlosV2\DumbsmartRepositories;
 
-use carlosV2\DumbsmartRepositories\Relation\Relation;
+use carlosV2\DumbsmartRepositories\Relation\RelationInterface;
 use carlosV2\DumbsmartRepositories\Transaction;
 use Everzet\PersistedObjects\ObjectIdentifier;
 use PhpSpec\ObjectBehavior;
@@ -31,7 +31,7 @@ class MetadataSpec extends ObjectBehavior
         $reference->getId()->shouldReturn('id');
     }
 
-    function it_prepares_the_object_to_be_saved(Relation $relation1, Relation $relation2, Transaction $transaction)
+    function it_prepares_the_object_to_be_saved(RelationInterface $relation1, RelationInterface $relation2, Transaction $transaction)
     {
         $object = new \stdClass();
 
@@ -43,7 +43,7 @@ class MetadataSpec extends ObjectBehavior
         $this->prepareToSave($transaction, $object);
     }
 
-    function it_prepares_the_object_to_be_loaded(Relation $relation1, Relation $relation2, Transaction $transaction)
+    function it_prepares_the_object_to_be_loaded(RelationInterface $relation1, RelationInterface $relation2, Transaction $transaction)
     {
         $object = new \stdClass();
 
@@ -55,7 +55,7 @@ class MetadataSpec extends ObjectBehavior
         $this->prepareToLoad($transaction, $object);
     }
 
-    function it_exposes_the_relations(Relation $relation1, Relation $relation2)
+    function it_exposes_the_relations(RelationInterface $relation1, RelationInterface $relation2)
     {
         $this->setRelation($relation1);
         $this->setRelation($relation2);

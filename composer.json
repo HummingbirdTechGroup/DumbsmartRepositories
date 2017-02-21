@@ -22,7 +22,8 @@
     },
     "require": {
         "php": ">=5.4,<7.2",
-        "everzet/persisted-objects": "~1.0"
+        "everzet/persisted-objects": "~1.0",
+        "carlosv2/communism": "^1.2"
     },
     "require-dev": {
         "phpspec/phpspec": "~2.1",
