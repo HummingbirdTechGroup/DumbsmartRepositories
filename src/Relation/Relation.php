@@ -34,8 +34,10 @@ abstract class Relation implements RelationInterface
      */
     public function prepareToSave(Transaction $transaction, $object)
     {
-        $this->replaceField($object, function ($document) use ($transaction, $object) {
-            $this->assertObjectOrNull($object, $document);
+        $relation = $this;
+
+        $this->replaceField($object, function ($document) use ($transaction, $object, $relation) {
+            $relation->assertObjectOrNull($object, $document);
 
             return ($document ? $transaction->save($document) : null);
         });
@@ -46,8 +48,10 @@ abstract class Relation implements RelationInterface
      */
     public function prepareToLoad(Transaction $transaction, $object)
     {
-        $this->replaceField($object, function ($reference) use ($transaction, $object) {
-            $this->assertReferenceOrNull($object, $reference);
+        $relation = $this;
+
+        $this->replaceField($object, function ($reference) use ($transaction, $object, $relation) {
+            $relation->assertReferenceOrNull($object, $reference);
 
             return ($reference ? $transaction->findByReference($reference) : null);
         });
@@ -57,18 +61,21 @@ abstract class Relation implements RelationInterface
      * @param object   $object
      * @param callable $callback
      */
-    protected function replaceField($object, callable $callback)
+    protected function replaceField($object, $callback)
     {
         From($object)->replace($this->field, $callback);
     }
 
     /**
+     * @internal This method is public to make the code compliant with PHP 5.3. Do NOT rely on this method as
+     *           it can be removed at any point or have its visibility changed without previous warning.
+     *
      * @param object $object
      * @param mixed  $document
      *
      * @throws UnexpectedDocumentTypeException
      */
-    protected function assertObjectOrNull($object, $document)
+    public function assertObjectOrNull($object, $document)
     {
         if (!is_null($document) && !is_object($document)) {
             throw new UnexpectedDocumentTypeException($object, $this->field, $document);
@@ -76,12 +83,15 @@ abstract class Relation implements RelationInterface
     }
 
     /**
+     * @internal This method is public to make the code compliant with PHP 5.3. Do NOT rely on this method as
+     *           it can be removed at any point or have its visibility changed without previous warning.
+     *
      * @param object $object
      * @param mixed  $document
      *
      * @throws UnexpectedDocumentTypeException
      */
-    protected function assertReferenceOrNull($object, $document)
+    public function assertReferenceOrNull($object, $document)
     {
         if (!is_null($document) && !$document instanceof Reference) {
             throw new UnexpectedDocumentTypeException($object, $this->field, $document);

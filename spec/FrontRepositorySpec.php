@@ -49,9 +49,9 @@ class FrontRepositorySpec extends ObjectBehavior
     {
         $object = new \stdClass();
 
-        $persister->getAll('my_class')->willReturn([$object]);
+        $persister->getAll('my_class')->willReturn(array($object));
 
-        $this->getAll()->shouldReturn([$object]);
+        $this->getAll()->shouldReturn(array($object));
     }
 
     function it_clears_the_repository(Persister $persister)

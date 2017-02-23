@@ -94,7 +94,7 @@ class TransactionSpec extends ObjectBehavior
         $object2->id = '456';
         $reference2 = new Reference('my_class', '456');
 
-        $repository->getAll()->willReturn([$object1, $object2]);
+        $repository->getAll()->willReturn(array($object1, $object2));
         $repository->findById('123')->willReturn($object1);
         $repository->findById('456')->willReturn($object2);
         $metadata->getReferenceForObject($object1)->willReturn($reference1);

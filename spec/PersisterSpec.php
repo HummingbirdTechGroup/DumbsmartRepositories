@@ -47,9 +47,9 @@ class PersisterSpec extends ObjectBehavior
         $object1 = new \stdClass();
         $object2 = new \stdClass();
 
-        $transaction->getAll('my_class')->willReturn([$object1, $object2]);
+        $transaction->getAll('my_class')->willReturn(array($object1, $object2));
 
-        $this->getAll('my_class')->shouldReturn([$object1, $object2]);
+        $this->getAll('my_class')->shouldReturn(array($object1, $object2));
     }
 
     function it_removes_an_object(Repository $repository)

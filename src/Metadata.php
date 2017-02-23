@@ -22,7 +22,7 @@ class Metadata
      */
     public function __construct(ObjectIdentifier $identifier)
     {
-        $this->relations = [];
+        $this->relations = array();
         $this->identifier = $identifier;
     }
 

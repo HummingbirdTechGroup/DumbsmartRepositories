@@ -13,7 +13,7 @@ class MetadataManager
 
     public function __construct()
     {
-        $this->metadata = [];
+        $this->metadata = array();
     }
 
     /**

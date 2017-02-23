@@ -31,7 +31,7 @@ class Transaction
     {
         $this->mm = $mm;
         $this->rm = $rm;
-        $this->cache = [];
+        $this->cache = array();
     }
 
     /**
@@ -89,8 +89,11 @@ class Transaction
      */
     public function getAll($className)
     {
-        return array_map(function ($object) {
-            return $this->findByReference($this->mm->getMetadataForObject($object)->getReferenceForObject($object));
+        $transaction = $this;
+        $metadataManager = $this->mm;
+
+        return array_map(function ($object) use ($transaction, $metadataManager) {
+            return $transaction->findByReference($metadataManager->getMetadataForObject($object)->getReferenceForObject($object));
         }, $this->rm->getRepositoryForClassName($className)->getAll());
     }
 
@@ -149,7 +152,7 @@ class Transaction
     private function setCachedData($className, $id, $object)
     {
         if (!array_key_exists($className, $this->cache)) {
-            $this->cache[$className] = [];
+            $this->cache[$className] = array();
         }
 
         $this->cache[$className][$this->stringify($id)] = $object;

@@ -59,6 +59,6 @@ class MetadataSpec extends ObjectBehavior
     {
         $this->setRelation($relation1);
         $this->setRelation($relation2);
-        $this->getRelations()->shouldReturn([$relation1, $relation2]);
+        $this->getRelations()->shouldReturn(array($relation1, $relation2));
     }
 }

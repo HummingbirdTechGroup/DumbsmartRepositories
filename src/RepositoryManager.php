@@ -14,7 +14,7 @@ class RepositoryManager
 
     public function __construct()
     {
-        $this->repositories = [];
+        $this->repositories = array();
     }
 
     /**

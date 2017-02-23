@@ -34,14 +34,14 @@ class OneToManyRelationSpec extends ObjectBehavior
         $reference2 = new Reference('classname', '456');
 
         $object = new TestingObject();
-        $object->setField([$embedded1, null, $embedded2]);
+        $object->setField(array($embedded1, null, $embedded2));
 
         $transaction->save($embedded1)->willReturn($reference1);
         $transaction->save($embedded2)->willReturn($reference2);
         $transaction->save(null)->shouldNotBeCalled();
 
         $this->prepareToSave($transaction, $object);
-        expect($object->getField())->toBe([$reference1, null, $reference2]);
+        expect($object->getField())->toBe(array($reference1, null, $reference2));
     }
 
     function it_prepares_an_object_to_be_saved_with_related_objects_and_nulls_from_a_parent_class(Transaction $transaction)
@@ -54,14 +54,14 @@ class OneToManyRelationSpec extends ObjectBehavior
         $reference2 = new Reference('classname', '456');
 
         $object = new TestingChildObject();
-        $object->setField([$embedded1, null, $embedded2]);
+        $object->setField(array($embedded1, null, $embedded2));
 
         $transaction->save($embedded1)->willReturn($reference1);
         $transaction->save($embedded2)->willReturn($reference2);
         $transaction->save(null)->shouldNotBeCalled();
 
         $this->prepareToSave($transaction, $object);
-        expect($object->getField())->toBe([$reference1, null, $reference2]);
+        expect($object->getField())->toBe(array($reference1, null, $reference2));
     }
 
     function it_throws_UnexpectedDocumentTypeException_if_a_related_value_is_not_null_or_object_while_preparing_to_save(Transaction $transaction)
@@ -74,7 +74,7 @@ class OneToManyRelationSpec extends ObjectBehavior
         $reference2 = new Reference('classname', '456');
 
         $object = new TestingObject();
-        $object->setField([$embedded1, null, $embedded2, 2]);
+        $object->setField(array($embedded1, null, $embedded2, 2));
 
         $transaction->save($embedded1)->willReturn($reference1);
         $transaction->save($embedded2)->willReturn($reference2);
@@ -98,14 +98,14 @@ class OneToManyRelationSpec extends ObjectBehavior
         $reference2 = new Reference('classname', '456');
 
         $object = new TestingObject();
-        $object->setField([$reference1, null, $reference2]);
+        $object->setField(array($reference1, null, $reference2));
 
         $transaction->findByReference($reference1)->willReturn($embedded1);
         $transaction->findByReference($reference2)->willReturn($embedded2);
         $transaction->findByReference(null)->shouldNotBeCalled();
 
         $this->prepareToLoad($transaction, $object);
-        expect($object->getField())->toBe([$embedded1, null, $embedded2]);
+        expect($object->getField())->toBe(array($embedded1, null, $embedded2));
     }
 
     function it_prepares_an_object_to_be_loaded_with_related_references_and_nulls_from_a_parent_class(Transaction $transaction)
@@ -118,14 +118,14 @@ class OneToManyRelationSpec extends ObjectBehavior
         $reference2 = new Reference('classname', '456');
 
         $object = new TestingChildObject();
-        $object->setField([$reference1, null, $reference2]);
+        $object->setField(array($reference1, null, $reference2));
 
         $transaction->findByReference($reference1)->willReturn($embedded1);
         $transaction->findByReference($reference2)->willReturn($embedded2);
         $transaction->findByReference(null)->shouldNotBeCalled();
 
         $this->prepareToLoad($transaction, $object);
-        expect($object->getField())->toBe([$embedded1, null, $embedded2]);
+        expect($object->getField())->toBe(array($embedded1, null, $embedded2));
     }
 
     function it_throws_UnexpectedDocumentTypeException_if_a_related_value_is_not_null_or_reference_while_preparing_to_load(Transaction $transaction)
@@ -140,9 +140,9 @@ class OneToManyRelationSpec extends ObjectBehavior
         $reference2 = new Reference('classname', '456');
 
         $object1 = new TestingObject();
-        $object1->setField([$reference1, null, $reference2, 2]);
+        $object1->setField(array($reference1, null, $reference2, 2));
         $object2 = new TestingObject();
-        $object2->setField([$reference1, null, $reference2, $embedded3]);
+        $object2->setField(array($reference1, null, $reference2, $embedded3));
 
         $transaction->findByReference($reference1)->willReturn($embedded1);
         $transaction->findByReference($reference2)->willReturn($embedded2);
