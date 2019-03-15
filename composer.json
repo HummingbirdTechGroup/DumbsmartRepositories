@@ -20,10 +20,16 @@
             "spec\\carlosV2\\DumbsmartRepositories\\": "spec/"
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:HummingbirdTechGroup/Communism.git"
+        }
+    ],
     "require": {
         "php": "~5.3 || ~7.0",
         "everzet/persisted-objects": "~1.0",
-        "carlosv2/communism": "^1.2"
+        "carlosv2/communism": "dev-master"
     },
     "require-dev": {
         "phpspec/phpspec": "~2.1",
