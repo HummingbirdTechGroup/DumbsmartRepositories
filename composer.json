@@ -27,7 +27,7 @@
         },        
         {
             "type": "vcs",
-            "url":  "https://github.com/HummingbirdTechGroup/persisted-objects.git"
+            "url":  "git@github.com:HummingbirdTechGroup/persisted-objects.git"
         }
     ],
     "require": {
