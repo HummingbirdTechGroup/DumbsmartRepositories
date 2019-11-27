@@ -24,11 +24,15 @@
         {
             "type": "vcs",
             "url": "git@github.com:HummingbirdTechGroup/Communism.git"
+        },        
+        {
+            "type": "vcs",
+            "url":  "https://github.com/HummingbirdTechGroup/persisted-objects.git"
         }
     ],
     "require": {
-        "php": "~5.3 || ~7.0",
-        "everzet/persisted-objects": "~1.0",
+        "php": ">5.3",
+        "everzet/persisted-objects": "dev-hb-fork",
         "carlosv2/communism": "dev-master"
     },
     "require-dev": {
