@@ -33,7 +33,7 @@
     "require": {
         "php": ">5.3",
         "everzet/persisted-objects": "dev-hb-fork",
-        "carlosv2/communism": "dev-master"
+        "carlosv2/communism": "dev-hb-fork"
     },
     "require-dev": {
         "phpspec/phpspec": "~2.1",
